@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/fr/categories/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>/fr/posts/creation-dun-nouveau-theme/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/posts/creating-a-new-theme/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/posts/creation-dun-nouveau-theme/"
+                />
+  </url>
+  
+  <url>
+    <loc>/fr/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/"
+                />
+  </url>
+  
+  <url>
+    <loc>/fr/categories/hugo/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/fr/posts/</loc>
+    <lastmod>2014-09-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/fr/posts/debuter-avec-hugo/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/posts/hugoisforlovers/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/posts/debuter-avec-hugo/"
+                />
+  </url>
+  
+  <url>
+    <loc>/fr/categories/go/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/fr/posts/introduction-aux-modeles-hugo/</loc>
+    <lastmod>2014-04-02T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/posts/goisforlovers/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/posts/introduction-aux-modeles-hugo/"
+                />
+  </url>
+  
+  <url>
+    <loc>/fr/categories/jekyll/</loc>
+    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/fr/posts/migrer-vers-hugo-depuis-jekyll/</loc>
+    <lastmod>2014-03-10T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/posts/migrate-from-jekyll/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/posts/migrer-vers-hugo-depuis-jekyll/"
+                />
+  </url>
+  
+  <url>
+    <loc>/fr/series/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>/fr/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="fr"
+                href="/fr/tags/"
+                />
+  </url>
+  
+</urlset>
