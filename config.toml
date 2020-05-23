@@ -1,4 +1,4 @@
-baseURL = "https://mic-bac.netlify.com"
+baseURL = "https://mic-bac.netlify.app"
 title   = "Hello Friend NG"
 languageCode = "en-us"
 theme = "hugo-theme-hello-friend-ng"
