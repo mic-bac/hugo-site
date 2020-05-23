@@ -1,5 +1,5 @@
 baseURL = "https://mic-bac.netlify.app"
-title   = "Hello Friend NG"
+title   = "Hello Paps"
 languageCode = "en-us"
 theme = "hugo-theme-hello-friend-ng"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
@@ -59,7 +59,7 @@ disableHugoGeneratorInject = false
   keywords = ""
   images = [""]
 
-  homeSubtitle = "Hello Friend NG"
+  homeSubtitle = "Hello Paps! Wie geht's?"
 
   # Prefix of link to the git commit detail page. GitInfo must be enabled.
   # gitUrl = ""
