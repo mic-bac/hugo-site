@@ -1,7 +1,7 @@
 baseURL = "https://mic-bac.netlify.app"
-title   = "Hello Paps"
+title   = "Michael Bach"
 languageCode = "en-us"
-theme = "hugo-theme-hello-friend-ng"
+theme = "hugo-theme"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 PygmentsCodeFences = true
@@ -9,15 +9,13 @@ PygmentsStyle = "monokai"
 
 paginate  = 10
 rssLimit  = 10  # Maximum number of items in the RSS feed.
-copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License." # This message is only used by the RSS template.
+# copyright = ""
 
 # googleAnalytics = ""
 # disqusShortname = ""
 
-archetypeDir = "archetypes"
-contentDir   = "content"
-dataDir      = "data"
-layoutDir    = "layouts"
+#contentDir   = "content"
+#layoutDir    = "layouts"
 publishDir   = "public"
 
 buildDrafts  = false
@@ -38,7 +36,7 @@ disableHugoGeneratorInject = false
   post = "/post/:year/:month/:title/"
 
 [author]
-  name = "Jane Doe"
+  name = "mic-bac"
 
 [blackfriday]
   hrefTargetBlank = true
@@ -59,7 +57,7 @@ disableHugoGeneratorInject = false
   keywords = ""
   images = [""]
 
-  homeSubtitle = "Hello Paps! Wie geht's?"
+  homeSubtitle = "#datascience #R #python #curiosity #customercentricity #enthusiasm"
 
   # Prefix of link to the git commit detail page. GitInfo must be enabled.
   # gitUrl = ""
@@ -101,24 +99,24 @@ disableHugoGeneratorInject = false
 
   # Social icons
   [[params.social]]
-    name = "twitter"
-    url  = "https://twitter.com/"
-
-  [[params.social]]
     name = "email"
-    url  = "mailto:nobody@example.com"
+    url  = "mailto:michaelbach@gmx.at"
 
   [[params.social]]
     name = "github"
-    url  = "https://github.com/"
+    url  = "https://github.com/mic-bac"
+
+  [[params.social]]
+    name = "kaggle"
+    url  = "https://kaggle.com/bachmi"
 
   [[params.social]]
     name = "linkedin"
-    url  = "https://www.linkedin.com/"
+    url  = "https://linkedin.com/in/michael-bach-78093998"
 
   [[params.social]]
     name = "stackoverflow"
-    url  = "https://www.stackoverflow.com/"
+    url  = "https://stackoverflow.com/users/13855630/mic-bac"
 
 [menu]
   [[menu.main]]
