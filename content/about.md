@@ -1,22 +1,9 @@
 ---
-aliases:
-- about-us
-- about-hugo
-- contact
-author:
-  name: Hugo Authors
-date: "2014-04-09"
 title: About
+author: Michael
+date: '2020-07-13'
 ---
 
-Hugo is the **world’s fastest framework for building websites**. It is written in Go.
+Hi there, 
 
-It makes use of a variety of open source projects including:
-
-* https://github.com/russross/blackfriday
-* https://github.com/alecthomas/chroma
-* https://github.com/muesli/smartcrop
-* https://github.com/spf13/cobra
-* https://github.com/spf13/viper
-
-Learn more and contribute on [GitHub](https://github.com/gohugoio).
+My name is Michael. I'm data scientist at [BILLA AG](https://www.billa.at/) - part of [REWE International AG](https://www.rewe-group.at/en/startseite) - one of Austria's leading retail companies. With a diverse educational background and some excursions in business areas like tourism management, sales, business administration, marketing, market research, statistics, and analytics, I finally found my home serving my curiosity - data science.
