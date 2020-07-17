@@ -33,6 +33,16 @@ We&amp;rsquo;ll start with creating a new site with a very basic template.</desc
     </item>
     
     <item>
+      <title>Building your own Tower</title>
+      <link>/posts/building-your-own-tower/</link>
+      <pubDate>Fri, 17 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/building-your-own-tower/</guid>
+      <description>TL;DR
+Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. pc partpicker or logical increments) as well as the compatibility guidelines of your mobo. There are plenty youtube tutorials, which are quite handy in terms of assembling guidelines (e.</description>
+    </item>
+    
+    <item>
       <title>About</title>
       <link>/about/</link>
       <pubDate>Mon, 13 Jul 2020 00:00:00 +0000</pubDate>

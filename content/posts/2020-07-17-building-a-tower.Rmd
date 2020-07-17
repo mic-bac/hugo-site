@@ -1,0 +1,87 @@
+---
+title: Building your own Tower
+author: Michael Bach
+date: '2020-07-17'
+slug: building-your-own-tower
+categories: ["PC"]
+tags: ["build", "components"]
+images: ~
+---
+
+---------------------------------------
+
+> **TL;DR**
+>
+> Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. [pc partpicker](https://pcpartpicker.com/) or [logical increments](https://www.logicalincrements.com/)) as well as the compatibility guidelines of your mobo. There are plenty youtube tutorials, which are quite handy in terms of assembling guidelines (e.g. [Pauls's Hardware](https://www.youtube.com/channel/UCvWWf-LYjaujE50iYai8WgQ) or [Bitwit](https://www.youtube.com/channel/UCftcLVz-jtPXoH3cWUUDwYw)).
+
+---------------------------------------
+
+The call to build my own tower reached me quite late (still in my 20s though). As I was traveling a lot as well as during my studies a tower PC wouldn't be very handy. And due to budget limitations not much better than my notebook. However, during the COVID-19 pandemic I thought it would be fun to build your own PC and run some deep learning prototypes on it. Admittedly, I bought some games too...
+
+In this post I would like to explain how I built my PC and add some information and ressourced others might find helpful when building their own PC.
+
+
+## Choosing your parts
+
+Choosing PC parts is the most time consuming but also the funniest part in my opinion. Still, it's very critical because here you can make the most mistakes.
+
+First, be sure about what you really want to do with your PC.
+
+- Are you planning to use it for office tasks and/or gaming only?
+- Would you like to run some deep learning models?
+- How about editing some photos and videos?
+- Are you going to upgrade/extend parts when you have more budget?
+- Or do you just want to surf the internet and have some fancy tower with rgb lightning in your living room?
+
+Most of these use cases involve a different budget and some special components and/or operating systems. Speaking of budget, this might be the major limitation for your build and the main reason why you simply won't be able to get the best all-in-one solution.
+
+In my case I wanted to have a PC which can handle some deep learning model prototypes and some quality gaming fun. Luckily, most specifications are quite similar for both use cases, but could have some pitfalls as well. I'll highlight them in the upcomming sections.
+
+### Central Processing Unit
+
+For a decent gaming performance a CPU like the **AMD Ryzen 7 3700X** or **Intel Core i7 9700K** are sufficient. One of the later **AMD Ryzen 5** or **Intel Core i5** CPUs would do the job as well for less money. As the CPU only helps in batch scheduling and other small processes while the GPU is doing the actual model training, such a mid-range CPU will get the job done. However, if you have GBs of data to preprocess and it fits in your budget, you might want to use the **Intel Core i9 10980XE** or the even more powerful **AMD Ryzen Threadripper 3970X**.
+
+
+
+### CPU Cooler
+
+
+### Motherboard
+
+mobo
+
+### Memory
+
+
+### Storage
+
+
+### Graphics Processing Unit
+
+GPU
+
+
+### Case
+
+
+### Power Supply Unit
+
+PSU
+
+### Operating System
+
+OS
+
+
+https://www.logicalincrements.com/
+https://pcpartpicker.com/
+
+
+https://timdettmers.com/2018/12/16/deep-learning-hardware-guide/
+https://towardsdatascience.com/how-to-create-your-own-deep-learning-rig-a-complete-hardware-guide-2bba792b001b
+
+
+### Case
+
+
+## Assembling

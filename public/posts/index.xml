@@ -5,7 +5,7 @@
         <description>Recent content in Posts on Michael Bach</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
+        <lastBuildDate>Fri, 17 Jul 2020 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
         
         <item>
@@ -967,6 +967,84 @@ Liquid::Template.register_tag('image', Jekyll::ImageTag)
 <p>You&rsquo;ll want to remove the Jekyll configuration at this point. If you have anything else that isn&rsquo;t used, delete it.</p>
 <h2 id="a-practical-example-in-a-diff">A practical example in a diff</h2>
 <p><a href="http://heyitsalex.net/">Hey, it&rsquo;s Alex</a> was migrated in less than a <em>father-with-kids day</em> from Jekyll to Hugo. You can see all the changes (and screw-ups) by looking at this <a href="https://github.com/alexandre-normand/alexandre-normand/compare/869d69435bd2665c3fbf5b5c78d4c22759d7613a...b7f6605b1265e83b4b81495423294208cc74d610">diff</a>.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Building your own Tower</title>
+            <link>/posts/building-your-own-tower/</link>
+            <pubDate>Fri, 17 Jul 2020 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/building-your-own-tower/</guid>
+            <description>TL;DR
+Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. pc partpicker or logical increments) as well as the compatibility guidelines of your mobo. There are plenty youtube tutorials, which are quite handy in terms of assembling guidelines (e.</description>
+            <content type="html"><![CDATA[
+
+
+<hr />
+<blockquote>
+<p><strong>TL;DR</strong></p>
+<p>Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. <a href="https://pcpartpicker.com/">pc partpicker</a> or <a href="https://www.logicalincrements.com/">logical increments</a>) as well as the compatibility guidelines of your mobo. There are plenty youtube tutorials, which are quite handy in terms of assembling guidelines (e.g. <a href="https://www.youtube.com/channel/UCvWWf-LYjaujE50iYai8WgQ">Pauls’s Hardware</a> or <a href="https://www.youtube.com/channel/UCftcLVz-jtPXoH3cWUUDwYw">Bitwit</a>).</p>
+</blockquote>
+<hr />
+<p>The call to build my own tower reached me quite late (still in my 20s though). As I was traveling a lot as well as during my studies a tower PC wouldn’t be very handy. And due to budget limitations not much better than my notebook. However, during the COVID-19 pandemic I thought it would be fun to build your own PC and run some deep learning prototypes on it. Admittedly, I bought some games too…</p>
+<p>In this post I would like to explain how I built my PC and add some information and ressourced others might find helpful when building their own PC.</p>
+<div id="choosing-your-parts" class="section level2">
+<h2>Choosing your parts</h2>
+<p>Choosing PC parts is the most time consuming but also the funniest part in my opinion. Still, it’s very critical because here you can make the most mistakes.</p>
+<p>First, be sure about what you really want to do with your PC.</p>
+<ul>
+<li>Are you planning to use it for office tasks and/or gaming only?</li>
+<li>Would you like to run some deep learning models?</li>
+<li>How about editing some photos and videos?</li>
+<li>Are you going to upgrade/extend parts when you have more budget?</li>
+<li>Or do you just want to surf the internet and have some fancy tower with rgb lightning in your living room?</li>
+</ul>
+<p>Most of these use cases involve a different budget and some special components and/or operating systems. Speaking of budget, this might be the major limitation for your build and the main reason why you simply won’t be able to get the best all-in-one solution.</p>
+<p>In my case I wanted to have a PC which can handle some deep learning model prototypes and some quality gaming fun. Luckily, most specifications are quite similar for both use cases, but could have some pitfalls as well. I’ll highlight them in the upcomming sections.</p>
+<div id="central-processing-unit" class="section level3">
+<h3>Central Processing Unit</h3>
+<p>For a decent gaming performance a CPU like the <strong>AMD Ryzen 7 3700X</strong> or <strong>Intel Core i7 9700K</strong> are sufficient. One of the later <strong>AMD Ryzen 5</strong> or <strong>Intel Core i5</strong> CPUs would do the job as well for less money. As the CPU only helps in batch scheduling and other small processes while the GPU is doing the actual model training, such a mid-range CPU will get the job done. However, if you have GBs of data to preprocess and it fits in your budget, you might want to use the <strong>Intel Core i9 10980XE</strong> or the even more powerful <strong>AMD Ryzen Threadripper 3970X</strong>.</p>
+</div>
+<div id="cpu-cooler" class="section level3">
+<h3>CPU Cooler</h3>
+</div>
+<div id="motherboard" class="section level3">
+<h3>Motherboard</h3>
+<p>mobo</p>
+</div>
+<div id="memory" class="section level3">
+<h3>Memory</h3>
+</div>
+<div id="storage" class="section level3">
+<h3>Storage</h3>
+</div>
+<div id="graphics-processing-unit" class="section level3">
+<h3>Graphics Processing Unit</h3>
+<p>GPU</p>
+</div>
+<div id="case" class="section level3">
+<h3>Case</h3>
+</div>
+<div id="power-supply-unit" class="section level3">
+<h3>Power Supply Unit</h3>
+<p>PSU</p>
+</div>
+<div id="operating-system" class="section level3">
+<h3>Operating System</h3>
+<p>OS</p>
+<p><a href="https://www.logicalincrements.com/" class="uri">https://www.logicalincrements.com/</a>
+<a href="https://pcpartpicker.com/" class="uri">https://pcpartpicker.com/</a></p>
+<p><a href="https://timdettmers.com/2018/12/16/deep-learning-hardware-guide/" class="uri">https://timdettmers.com/2018/12/16/deep-learning-hardware-guide/</a>
+<a href="https://towardsdatascience.com/how-to-create-your-own-deep-learning-rig-a-complete-hardware-guide-2bba792b001b" class="uri">https://towardsdatascience.com/how-to-create-your-own-deep-learning-rig-a-complete-hardware-guide-2bba792b001b</a></p>
+</div>
+<div id="case-1" class="section level3">
+<h3>Case</h3>
+</div>
+</div>
+<div id="assembling" class="section level2">
+<h2>Assembling</h2>
+</div>
 ]]></content>
         </item>
         
