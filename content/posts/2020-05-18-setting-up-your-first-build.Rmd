@@ -1,0 +1,17 @@
+---
+title: Setting up your first build
+author: Michael Bach
+date: '2020-05-18'
+slug: setting-up-your-first-build
+categories: ["PC"]
+images: ~
+---
+
+
+---------------------------------------
+
+> As I described my thoughts about my PC build in a previous post, I would like to talk about how I set up my build. Stay tuned!
+>
+>
+
+---------------------------------------
