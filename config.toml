@@ -94,7 +94,7 @@ disableHugoGeneratorInject = false
     # logoCursorAnimate  = "2s"
 
   [params.portrait]
-    path = "/img/image.jpg"
+    path = "images/silhouette.jpg"
     alt = "Portrait"
 
   # Social icons
