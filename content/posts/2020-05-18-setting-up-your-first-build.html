@@ -11,6 +11,26 @@ images: ~
 
 <hr />
 <blockquote>
-<p>As I described my thoughts about my PC build in a previous post, I would like to talk about how I set up my build. Stay tuned!</p>
+<p><strong>TL;DR</strong></p>
+<p>After building your own PC you might want to install your OS. Most will choose between Windows and a Linux distribution, but you can also have all in one with WLS 2 (Windows Subsystem for Linux) or both with a dual boot mode. I describe the setup for a dual boot mode on two physically separeted SSDs. Most information is straight forward and easy to find on the Microsoft or e.g. Ubuntu website for setting up your OS. You might find some links in the post helpful if you need additional information.</p>
 </blockquote>
 <hr />
+<p>In my previous post I wrote about building my own PC. But without an OS it’s not that useful (although it might look nice). Therefore, I’ll focus on my software set-up in this post.</p>
+<div id="opterating-system" class="section level2">
+<h2>Opterating System</h2>
+<p>For the most users the choice is between Windows or Linux. Although, it’s not necessary to choose between either or anymore due to <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">WSL 2</a>, the Windows Subsystem for Linux. This allows you to install a full functional Linux kernel in Windows 10.</p>
+<p>Still, when choosing my OS I decided to setup both, Windows and Linux, in dual boot mode and on two separate physical drives. The only a few things you need are one USB flash drive with enough storage (or CD/DVD - check if your BIOS lets you boot from the medium of your choice), another PC/notebook, and a stable internet connection.</p>
+<div id="windows" class="section level3">
+<h3>Windows</h3>
+<p>Starting with the Windows installation - this one is pretty straight forward. Download the Windows creation tool and ISO file for the latest Windows version from the <a href="https://www.microsoft.com/en-us/software-download/">official Microsoft website</a>. Then use the tool to create your installation media. Additionally, you’ll need a prouct key for your installation. You could also finish the installation without one, but you won’t be able to use all features of your installation then, therefore I’d recommend to get a product key.</p>
+<p>As soon as you have your installation media ready open the boot menu, which you can access by pressing a key during boot (check your mobo manual to find out which key - often <em>F12</em> or <em>del</em>). Then choose from which medium to boot from. If everything works as expected an installation screen should pop up. Within the next steps you’ll need to choose your installation and type in your product key. That’s pretty much it! Now you’re good to go :)</p>
+</div>
+<div id="linux" class="section level3">
+<h3>Linux</h3>
+<p>There are many Linux distributions available. I decided to setup the latest Ubuntu Desktop version (20.04 Focal Fossa) because I think it’s greate to have a large community if you run in any problems and I like the look and feel. But, that’s just a personal preference.</p>
+<p>You can find a detailed description how to setup a bootable USB flash drive for your installation on the <a href="https://ubuntu.com/download">official Ubuntu website</a>.</p>
+<p>Again, you have to open the boot menu and select your Ubuntu installation medium to boot from. After a few seconds you are able to choose to either install Ubuntu or to try it. If you are not sure if you want to install it, try it first. If you decide to install it click on <em>Install Ubuntu</em>. Then select your preferred keyboard layout. At step <em>Updates and other Software</em> I decided to do the <em>Normal installation</em> instead of the <em>Minimal installation</em> to have all GUI related utilities available right after the installation. I also ticked the options in <em>Other options</em> to make sure everything works as expected.
+At the <em>Installation type</em> section, I choose <em>Something else</em> as I wanted to have my own customized partition scheme on a separate SSD. To create a partition table select the device for your installation. Then click <em>New Partition Table…</em>. Use a forward slash (/) for your mount point, then you should be good to go. You might want to add a swap partition in case you run out of RAM with data intensive applications (see <a href="https://www.makeuseof.com/tag/swap-partition/" class="uri">https://www.makeuseof.com/tag/swap-partition/</a> for more details). I did not create any other partitions. Else you could also create custom partitions for your installation. Finally, choose your timezone and user credentials and you’re good to go :). If you need some screenshots or more indepth information, I found this post at <a href="https://www.linuxtechi.com/ubuntu-20-04-lts-installation-steps-screenshots/">Linux Techi</a> very informative.</p>
+<p>I hope this post was informative!</p>
+</div>
+</div>
