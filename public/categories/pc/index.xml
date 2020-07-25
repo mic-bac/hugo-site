@@ -17,8 +17,8 @@
       <pubDate>Mon, 18 May 2020 00:00:00 +0000</pubDate>
       
       <guid>/posts/setting-up-your-first-build/</guid>
-      <description>  As I described my thoughts about my PC build in a previous post, I would like to talk about how I set up my build. Stay tuned!
- </description>
+      <description>TL;DR
+After building your own PC you might want to install your OS. Most will choose between Windows and a Linux distribution, but you can also have all in one with WLS 2 (Windows Subsystem for Linux) or both with a dual boot mode. I describe the setup for a dual boot mode on two physically separeted SSDs. Most information is straight forward and easy to find on the Microsoft or e.</description>
     </item>
     
     <item>
