@@ -6,7 +6,7 @@
     <description>Recent content on Michael Bach</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,11 +14,11 @@
     <item>
       <title>About</title>
       <link>/about/</link>
-      <pubDate>Mon, 13 Jul 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 23 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
       <description>Hi there,
-My name is Michael. I&amp;rsquo;m data scientist at BILLA MERKUR Österreich - part of REWE International AG - two of Austria&amp;rsquo;s leading retail companies BILLA and MERKUR. As data scientist at BMÖ I&amp;rsquo;m part of a great team and we&amp;rsquo;re eager to support our business departments in developing a data-driven culture. With the help of advanced analytics and a strong BI department, we&amp;rsquo;re trying to enable others to make data-based decisions.</description>
+My name is Michael. I&amp;rsquo;m working as data scientist at BILLA MERKUR Österreich (BMÖ) - part of REWE International AG - two of Austria&amp;rsquo;s leading retail companies BILLA and MERKUR. As data scientist at BMÖ I&amp;rsquo;m part of a great team - eager to support our business departments in developing a data-driven culture. With the help of advanced analytics and a strong BI department, we&amp;rsquo;re trying to enable others to make data-based decisions.</description>
     </item>
     
     <item>
@@ -38,7 +38,7 @@ CI/CD  architecture: https://www.atlassian.com/continuous-delivery GitLab CI/CD:
       
       <guid>/posts/setting-up-your-first-build/</guid>
       <description>TL;DR
-After building your own PC you might want to install your OS. Most will choose between Windows and a Linux distribution, but you can also have all in one with WSL 2 (Windows Subsystem for Linux) or both with a dual boot mode. I describe the setup for a dual boot mode on two physically separeted SSDs. Most information is straight forward and easy to find on the Microsoft or e.</description>
+After building your own PC you might want to install your OS. Most will choose between Windows and a Linux distribution, but you can also have all in one with WSL 2 (Windows Subsystem for Linux) or both with a dual boot mode. I describe the setup for a dual boot mode on two physically separated SSDs. Most information is straight forward and easy to find on the Microsoft or e.</description>
     </item>
     
     <item>
@@ -48,7 +48,7 @@ After building your own PC you might want to install your OS. Most will choose b
       
       <guid>/posts/building-your-own-tower/</guid>
       <description>TL;DR
-Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. pc partpicker or logical increments) as well as the compatibility guidelines of your mobo. There are plenty youtube tutorials, which are quite handy in terms of assembling guidelines (e.</description>
+Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. pc partpicker or logical increments) as well as the compatibility guidelines of your mobo. There are plenty YouTube tutorials, which are quite handy in terms of assembling guidelines (e.</description>
     </item>
     
   </channel>
