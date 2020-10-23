@@ -57,7 +57,7 @@ disableHugoGeneratorInject = false
   keywords = ""
   images = [""]
 
-  homeSubtitle = "#datascience #R #python #curiosity #customercentricity #enthusiasm"
+  homeSubtitle = "#datascience #analytics #IT #business #R #python #curiosity #customercentricity #enthusiasm"
 
   # Prefix of link to the git commit detail page. GitInfo must be enabled.
   # gitUrl = ""

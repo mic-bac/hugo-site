@@ -18,7 +18,7 @@
       
       <guid>/posts/setting-up-your-first-build/</guid>
       <description>TL;DR
-After building your own PC you might want to install your OS. Most will choose between Windows and a Linux distribution, but you can also have all in one with WSL 2 (Windows Subsystem for Linux) or both with a dual boot mode. I describe the setup for a dual boot mode on two physically separeted SSDs. Most information is straight forward and easy to find on the Microsoft or e.</description>
+After building your own PC you might want to install your OS. Most will choose between Windows and a Linux distribution, but you can also have all in one with WSL 2 (Windows Subsystem for Linux) or both with a dual boot mode. I describe the setup for a dual boot mode on two physically separated SSDs. Most information is straight forward and easy to find on the Microsoft or e.</description>
     </item>
     
     <item>
@@ -28,7 +28,7 @@ After building your own PC you might want to install your OS. Most will choose b
       
       <guid>/posts/building-your-own-tower/</guid>
       <description>TL;DR
-Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. pc partpicker or logical increments) as well as the compatibility guidelines of your mobo. There are plenty youtube tutorials, which are quite handy in terms of assembling guidelines (e.</description>
+Before starting with a new build, know what you would like to use it for. Make sure to be aware if you need certain hardware for specific tasks (e.g. NVIDIA for deep learning). Check some websites to minimize compatibility issues (e.g. pc partpicker or logical increments) as well as the compatibility guidelines of your mobo. There are plenty YouTube tutorials, which are quite handy in terms of assembling guidelines (e.</description>
     </item>
     
   </channel>
