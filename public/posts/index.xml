@@ -5,8 +5,149 @@
         <description>Recent content in Posts on Michael Bach</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Mon, 18 May 2020 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Sun, 28 Jun 2020 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Getting started with Docker</title>
+            <link>/posts/getting-started-with-docker/</link>
+            <pubDate>Sun, 28 Jun 2020 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/getting-started-with-docker/</guid>
+            <description>TL;DR
+This post is ment to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furhtermore, they scale nicely and are therefore rather ressource-efficient.</description>
+            <content type="html"><![CDATA[
+
+
+<p><img src="/images/Docker_logo.png" /></p>
+<hr />
+<blockquote>
+<p><strong>TL;DR</strong></p>
+<p>This post is ment to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furhtermore, they scale nicely and are therefore rather ressource-efficient. Check out the official <a href="https://www.docker.com/resources/what-container">Docker website</a> for a more detailed overview.</p>
+</blockquote>
+<hr />
+<p>This post is ment to be a little cheat sheet for Docker setup and usage. For a more general overview about Docker containers see the official <a href="https://www.docker.com/resources/what-container">Docker website</a> or the <a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/container-docker-introduction/">Introduction to Containers and Docker</a> from Microsoft. Just a quick note before going into detail: please, always examine scripts downloaded from the internet before running them locally.</p>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>Before starting the setup, you could check if you Docker is already installed and ready to use:</p>
+<pre><code>$ docker --version
+$ sudo docker run hello-world</code></pre>
+<p>If that works out fine, you might just want to update docker.</p>
+<div id="the-repository" class="section level3">
+<h3>The Repository</h3>
+<p>If you are on Ubuntu (like me), you need to remove old docker installations first. Therefore, use the folloging command:</p>
+<pre><code>$ sudo apt-get remove docker docker-engine docker.io containerd runc</code></pre>
+<p>Before you install Docker Engine for the first time on a new host machine, you need to set up the Docker repository. Afterwards, you can install and update Docker from the repository.</p>
+<p>First, update the <code>apt</code> package index and install packages to allow <code>apt</code> to use a repository over HTTPS:</p>
+<pre><code>$ sudo apt-get update
+
+$ sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common</code></pre>
+<p>Then add Docker’s official GPG key:</p>
+<pre><code>$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</code></pre>
+<p>And finally, verify the key:</p>
+<pre><code>$ sudo apt-key fingerprint 0EBFCD88
+
+pub   rsa4096 2017-02-22 [SCEA]
+      9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
+uid           [ unknown] Docker Release (CE deb) &lt;docker@docker.com&gt;
+sub   rsa4096 2017-02-22 [S]</code></pre>
+<p>Then set up a stable repository:</p>
+<pre><code>$ sudo add-apt-repository \
+   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable&quot;</code></pre>
+</div>
+<div id="the-engine" class="section level3">
+<h3>The Engine</h3>
+<p>Install the latest version of Docker Engine and containerd.</p>
+<pre><code>$ sudo apt-get install docker-ce docker-ce-cli containerd.io</code></pre>
+<p>You can finish and verify your installation by testing the Docker Engine by running the <code>hello-world</code> image.</p>
+<pre><code>$ sudo docker run hello-world</code></pre>
+<p>This should work out fine. If there any troubles check this <a href="https://docs.docker.com/engine/install/ubuntu/">link</a>.</p>
+<p>I ran in an issue when I tried to start my first container. I received the following error message: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post <a href="http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create" class="uri">http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create</a>: dial unix /var/run/docker.sock: connect: permission denied.</p>
+<p>The solution to this problem was to add the user to the Docker user group with <code>$ sudo usermod -aG docker SOMEUSERNAME</code> (then restart your computer).</p>
+</div>
+</div>
+<div id="useful-docker-commands" class="section level2">
+<h2>Useful Docker commands</h2>
+<div id="build-a-container" class="section level3">
+<h3>Build a Container</h3>
+<p>As an example I’m building a container from the <code>rocker/rstudio:3.6.3</code> image. This means, that <a href="https://www.rocker-project.org/">rocker</a> provides us whith an image for RStudio including R version 3.6.3.</p>
+<pre><code>$ docker run --rm -d -v /media/path/to/local/file:/home/&lt;your_username&gt;/rstudio -p 8787:8787 -e PASSWORD=&lt;your_pw&gt; -e USER=&lt;your_username&gt; --name &lt;your_container_name&gt; rocker/rstudio:3.6.3</code></pre>
+<p>If you don’t have the rocker/rstudio image yet, it’s automatically pulled from docker hub.
+The arguments run, –rm, -d, -v, -e and -p are used to:</p>
+<ul>
+<li>[run] start a container</li>
+<li>[--rm] remove the container automatically when it is stopped (all changes are lost – great to try some things out as it reduces cleaning steps)</li>
+<li>[-d] detach the container (container runs in background)</li>
+<li>[-v] bind mount a volume (e.g. a folder with data as in this example, see this <a href="https://github.com/rocker-org/rocker/wiki/Sharing-files-with-host-machine">link</a> for details)</li>
+<li>[-e] set the environment variables PASSWORD and USER</li>
+<li>[-p] publish a container’s port(s) to the host (here 8787:8787)</li>
+<li>[--name] give the container a name, so you don’t have to use the container ID (especially useful if you have multiple containers with the same image)</li>
+</ul>
+<p>More Docker run commands can be found on the official <a href="https://docs.docker.com/engine/reference/commandline/run/">Docker website</a>.</p>
+<p>When you run the command with your specifications the container is set up.</p>
+<p>Now, just open your browser and go to <em>localhost:8787</em> if you are on a linux machine, otherwise try <a href="http://192.168.99.100:8787" class="uri">http://192.168.99.100:8787</a> in your browser (or follow the instructions <a href="https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image">here</a>. The following side should appear in your browser window:</p>
+<p><img src="/images/rstudio-login.png" /></p>
+<p>To log in use <your_username> and <your_pw> which you entered before.</p>
+<p>After entering your credentials you should be able to see the RStudio ui. If you added a folder to mount as volume, the folder content should be embedded as well.</p>
+</div>
+<div id="system-maintainance" class="section level3">
+<h3>System Maintainance</h3>
+<blockquote>
+<p><code>$ docker system info</code></p>
+</blockquote>
+<p>This command gives you an overview of e.g. how many containers you have/are running/stopped/paused, how many images are available locally, or the Docker root directory.</p>
+<blockquote>
+<p><code>$ docker system prune</code></p>
+</blockquote>
+<p>The <code>prune</code> command removes all stopped containers, dangling images, and unused networks. It will prompt a warning message about what’s going to happen, so be careful with this one.</p>
+<p>By default, the command doesn’t remove unused volumes or networks to prevent losing important data. To remove all unused volumes, pass the –volumes option <code>$ docker system prune --volumes</code>. Alternatively use <code>$ docker volume prune</code>.
+To remove all unused networks use <code>$ docker network prune</code>.</p>
+</div>
+<div id="container-maintainance" class="section level3">
+<h3>Container Maintainance</h3>
+<blockquote>
+<p><code>$ docker container ls -a</code></p>
+</blockquote>
+<p>List all containers.</p>
+<blockquote>
+<p><code>$ docker container rm &lt;container ID&gt;</code></p>
+</blockquote>
+<p>Remove the container with container ID <container ID> (Note: The container has to be stopped before it can be removed).</p>
+<blockquote>
+<p><code>$ docker container prune</code></p>
+</blockquote>
+<p>Removes all stopped containers. You might want to verify which containers are not running (stopped) and therefore pruned before you run the command with<code>$ docker container ls -a --filter status=exited --filter status=created</code>.</p>
+<p>The <code>prune</code> command allows you to remove containers based on a filter condition with the <code>--filter</code> option. With multiple <code>--filter</code> options you can use more than one filter condition.</p>
+<p>At the time of the writing of this article, the currently supported filters are until and label. You can specify more than one filter by using multiple –filter options.</p>
+<p>For example, the following command removes containers created more than 5 minutes ago <code>$ docker container prune --filter &quot;until=5m&quot;</code>.</p>
+</div>
+<div id="image-maintainance" class="section level3">
+<h3>Image Maintainance</h3>
+<blockquote>
+<p><code>$ docker image ls -a</code></p>
+</blockquote>
+<p>List all Docker images.</p>
+<blockquote>
+<p><code>$ docker image rm &lt;image ID&gt;</code></p>
+</blockquote>
+<p>Remove the image with image ID <image ID> (Note: If the image is used by an existing container removing it is not allowed).</p>
+<blockquote>
+<p><code>$ docker image prune</code></p>
+</blockquote>
+<p>Removes dangled and unused Docker images. A dangling image is an image that is not tagged and is not used by any container.</p>
+<p>For more information on Docker commands check out the official <a href="https://docs.docker.com/">Docker documentation</a>.</p>
+<p>I hope this post was informative. Feel free to contact me for any feedback :)</p>
+</div>
+</div>
+]]></content>
+        </item>
         
         <item>
             <title>Setting up your first build</title>
