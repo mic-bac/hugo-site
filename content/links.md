@@ -16,6 +16,8 @@ I added some links below, which I found particularly helpful as resources for ce
 ### docker
 
 * containers for R: https://www.rocker-project.org/
+* Docker documentation: https://docs.docker.com/
+* Install Docker Engine on Ubuntu: https://docs.docker.com/engine/install/ubuntu/
 
 ### git
 
