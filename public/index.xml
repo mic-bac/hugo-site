@@ -34,7 +34,7 @@ CI/CD  architecture: https://www.atlassian.com/continuous-delivery GitLab CI/CD:
       
       <guid>/posts/getting-started-with-docker/</guid>
       <description>TL;DR
-This post is ment to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furhtermore, they scale nicely and are therefore rather ressource-efficient.</description>
+This post is meant to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furthermore, they scale nicely and are therefore rather resource-efficient.</description>
     </item>
     
     <item>

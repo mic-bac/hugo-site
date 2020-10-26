@@ -13,11 +13,11 @@ images: ~
 
 > **TL;DR**
 >
-> This post is ment to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furhtermore, they scale nicely and are therefore rather ressource-efficient. Check out the official [Docker website](https://www.docker.com/resources/what-container) for a more detailed overview.
+> This post is meant to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furthermore, they scale nicely and are therefore rather resource-efficient. Check out the official [Docker website](https://www.docker.com/resources/what-container) for a more detailed overview.
 
 ---------------------------------------
 
-This post is ment to be a little cheat sheet for Docker setup and usage. For a more general overview about Docker containers see the official [Docker website](https://www.docker.com/resources/what-container) or the [Introduction to Containers and Docker](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/container-docker-introduction/) from Microsoft. Just a quick note before going into detail: please, always examine scripts downloaded from the internet before running them locally.
+This post is meant to be a little cheat sheet for Docker setup and usage. For a more general overview about Docker containers see the official [Docker website](https://www.docker.com/resources/what-container) or the [Introduction to Containers and Docker](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/container-docker-introduction/) from Microsoft. Just a quick note before going into detail: please, always examine scripts downloaded from the internet before running them locally.
 
 ## Setup
 
@@ -32,7 +32,7 @@ If that works out fine, you might just want to update docker.
 
 ### The Repository
 
-If you are on Ubuntu (like me), you need to remove old docker installations first. Therefore, use the folloging command:
+If you are on Ubuntu (like me), you need to remove old docker installations first. Therefore, use the following command:
 
 ```
 $ sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -96,7 +96,7 @@ $ sudo docker run hello-world
 This should work out fine. If there any troubles check this [link](https://docs.docker.com/engine/install/ubuntu/).
 
 
-I ran in an issue when I tried to start my first container. I received the following error message: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create: dial unix /var/run/docker.sock: connect: permission denied.
+I ran in an issue when I tried to start my first container. I received the following error message: *Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create: dial unix /var/run/docker.sock: connect: permission denied.*
 
 The solution to this problem was to add the user to the Docker user group with `$ sudo usermod -aG docker SOMEUSERNAME` (then restart your computer).
 
@@ -105,7 +105,7 @@ The solution to this problem was to add the user to the Docker user group with `
 
 ### Build a Container
 
-As an example I'm building a container from the `rocker/rstudio:3.6.3` image. This means, that [rocker](https://www.rocker-project.org/) provides us whith an image for RStudio including R version 3.6.3.
+As an example I'm building a container from the `rocker/rstudio:3.6.3` image. This means, that [rocker](https://www.rocker-project.org/) provides us with an image for RStudio including R version 3.6.3.
 
 ```
 $ docker run --rm -d -v /media/path/to/local/file:/home/<your_username>/rstudio -p 8787:8787 -e PASSWORD=<your_pw> -e USER=<your_username> --name <your_container_name> rocker/rstudio:3.6.3
@@ -114,28 +114,28 @@ $ docker run --rm -d -v /media/path/to/local/file:/home/<your_username>/rstudio 
 If you don't have the rocker/rstudio image yet, it's automatically pulled from docker hub.
 The arguments run, --rm, -d, -v, -e and -p are used to:
 
-- [run] start a container
-- [\--rm] remove the container automatically when it is stopped (all changes are lost – great to try some things out as it reduces cleaning steps)
-- [-d] detach the container (container runs in background)
-- [-v] bind mount a volume (e.g. a folder with data as in this example, see this [link](https://github.com/rocker-org/rocker/wiki/Sharing-files-with-host-machine) for details)
-- [-e] set the environment variables PASSWORD and USER
-- [-p] publish a container's port(s) to the host (here 8787:8787)
-- [\--name] give the container a name, so you don't have to use the container ID (especially useful if you have multiple containers with the same image)
+- `run` start a container
+- `--rm` remove the container automatically when it is stopped (all changes are lost – great to try some things out as it reduces cleaning steps)
+- `-d` detach the container (container runs in background)
+- `-v` bind mount a volume (e.g. a folder with data as in this example, see this [link](https://github.com/rocker-org/rocker/wiki/Sharing-files-with-host-machine) for details)
+- `-e` set the environment variables PASSWORD and USER
+- `-p` publish a container's port(s) to the host (here 8787:8787)
+- `--name` give the container a name, so you don't have to use the container ID (especially useful if you have multiple containers with the same image)
 
 More Docker run commands can be found on the official [Docker website](https://docs.docker.com/engine/reference/commandline/run/).
 
 When you run the command with your specifications the container is set up.
 
-Now, just open your browser and go to *localhost:8787* if you are on a linux machine, otherwise try http://192.168.99.100:8787 in your browser (or follow the instructions [here](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image). The following side should appear in your browser window:
+Now, just open your browser and go to *localhost:8787* if you are on a Linux machine, otherwise try http://192.168.99.100:8787 in your browser (or follow the instructions [here](https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image). The following side should appear in your browser window:
 
 ![](/images/rstudio-login.png)
 
 To log in use <your_username> and <your_pw> which you entered before.
 
-After entering your credentials you should be able to see the RStudio ui. If you added a folder to mount as volume, the folder content should be embedded as well.
+After entering your credentials you should be able to see the RStudio GUI. If you added a folder to mount as volume, the folder content should be embedded as well.
 
 
-### System Maintainance
+### System Maintenance
 
 > `$ docker system info`
 
@@ -150,7 +150,7 @@ By default, the command doesn't remove unused volumes or networks to prevent los
 To remove all unused networks use `$ docker network prune`.
 
 
-### Container Maintainance
+### Container Maintenance
 
 > `$ docker container ls -a`
 
@@ -171,7 +171,7 @@ At the time of the writing of this article, the currently supported filters are 
 For example, the following command removes containers created more than 5 minutes ago `$ docker container prune --filter "until=5m"`.
 
 
-### Image Maintainance
+### Image Maintenance
 
 > `$ docker image ls -a`
 
