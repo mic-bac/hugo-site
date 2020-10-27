@@ -17,7 +17,7 @@ images: ~
 
 ---------------------------------------
 
-In this post I'd like to give a quick overview of how to customize a python container set up. This could be an advantage if you develop in teams or require certain software releases or just don't want to setup everything manually for every project. You could either build an image from scratch of use a parent image and customize it to your needs. I'll focus on customizing a parent image as it suits my needs perfectly. Creating your own image might be necessary for certain usecases. However, most of the time it's sufficient building on a parent image as many smart people already invested some time in developing it.
+In this post I'd like to give a quick overview of how to customize a python container image to run your app or to use it as playground. You could either build an image from scratch of use a parent image and customize it to your needs. I'll focus on customizing a parent image as it suits my needs perfectly. Creating your own image might be necessary for certain usecases. However, most of the time it's sufficient building on a parent image as many smart people already invested some time in developing it.
 
 ## Basic Requirements
 
@@ -30,7 +30,7 @@ That's pretty much it! Now you're good to start customizing your Docker image.
 
 ## Dockerfile
 
-Use Dockerfile to run your application.
+If you want to run your app in a container, you can use a Dockerfile. In the following, I provided a basic example to give you an idea how it could work, including some extras [optional].
 
 In your Dockerfile, you'll need to add some arguments. Some of them are required and some are useful to specifiy your custom image:
 
@@ -45,30 +45,63 @@ In your Dockerfile, you'll need to add some arguments. Some of them are required
 
 ```
 # [optional] add arguments for FROM
-ARG VERSION=3.9
+ARG VERSION=3.8
 
 # chose your source
 FROM python:${VERSION}
 
-# add working directory from parent
-WORKDIR /usr/src/app
+# [optional] add working directory if needed
+WORKDIR /usr/src
 
-# copy requirements
-COPY requirements.txt ./
+# [optional] copy requirements for installation
+COPY requirements.txt .
 
-# install requirements
+# [optional] install requirements
 RUN pip install --no-cache-dir -r requirements.txt
 
-# copy all files from source to destination
+# copy everything
 COPY . .
 
 # command to run on container start
-CMD [ "python", "./your-daemon-or-script.py" ]
+CMD ["python", "./example.py"]
 ```
 
-The above example also requires a *requirements.txt* file indicating the necessary python libraries you would like to install in your container.
+The above example also requires a *requirements.txt* file indicating the necessary python libraries you would like to install in your container. For this example I don't really need one but, I'd like to give an example of how you could make use of it.
 
-Your Docker file is executed sequentially. 
+Your Docker file is executed sequentially and builds up your image. You need just one line of code in your terminal:
+
+```
+$ docker build -t examplepy:hello /path/to/docker-file/location/
+```
+
+You should see the status of every step you specified in your Dockerfile.
+
+```
+Sending build context to Docker daemon  4.096kB
+Step 1/7 : ARG VERSION=3.8
+Step 2/7 : FROM python:${VERSION}
+3.8: Pulling from library/python
+
+...
+
+Successfully built deeb932bac19
+Successfully tagged examplepy:hello
+```
+
+And you can run your docker container.
+
+```
+$ docker run --rm -it examplepy:hello
+```
+
+With the following result (hopefully :)):
+
+```
+Hello Docker World!
+Pandas found:
+True
+```
+
 
 
 I hope this post was informative. Feel free to contact me for any feedback :)
