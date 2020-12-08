@@ -6,7 +6,18 @@
     <description>Recent content in development on Michael Bach</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 08 Aug 2020 00:00:00 +0000</lastBuildDate><atom:link href="/categories/development/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Customize Docker Container</title>
+      <link>/posts/custom-docker-image/</link>
+      <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/custom-docker-image/</guid>
+      <description>TL;DR
+Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your Dockerfile.
+ In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground.</description>
+    </item>
+    
     <item>
       <title>Getting started with Docker</title>
       <link>/posts/getting-started-with-docker/</link>
