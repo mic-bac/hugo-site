@@ -5,8 +5,106 @@
         <description>Recent content in Posts on Michael Bach</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en-us</language>
-        <lastBuildDate>Sun, 28 Jun 2020 00:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Sat, 08 Aug 2020 00:00:00 +0000</lastBuildDate>
         <atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>Customize Docker Container</title>
+            <link>/posts/custom-docker-image/</link>
+            <pubDate>Sat, 08 Aug 2020 00:00:00 +0000</pubDate>
+            
+            <guid>/posts/custom-docker-image/</guid>
+            <description>TL;DR
+Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your Dockerfile.
+ In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground.</description>
+            <content type="html"><![CDATA[
+
+
+<p><img src="/images/Docker_logo.png" /></p>
+<hr />
+<blockquote>
+<p><strong>TL;DR</strong></p>
+<p>Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your <em>Dockerfile</em>.</p>
+</blockquote>
+<hr />
+<p>In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground. You could either build an image from scratch or use a parent image and customize it to your needs. I’ll focus on customizing a parent image as it suits my needs perfectly. Creating your own image might be necessary for certain usecases. However, most of the time it’s sufficient building on a parent image as many smart people already invested some time in developing it.</p>
+<div id="basic-requirements" class="section level2">
+<h2>Basic Requirements</h2>
+<p>To begin with, you should have Docker installed. If you don’t have Docker installed yet, check out my post on <a href="https://mic-bac.netlify.app/posts/getting-started-with-docker/">Getting started with Docker</a>.</p>
+<p>Create a folder where you would like to save your Dockerfile and any additional files you might need.</p>
+<p>That’s pretty much it! Now you’re good to start customizing your Docker image.</p>
+</div>
+<div id="dockerfile" class="section level2">
+<h2>Dockerfile</h2>
+<p>If you want to run your app in a container, you can use a Dockerfile. In the following, I provided a basic example to give you an idea how it could work, including some extras [optional].</p>
+<p>In your Dockerfile, you’ll need to add some arguments. Some of them are required and some are useful to specifiy your custom image:</p>
+<ul>
+<li><code>FROM</code> initializes a new build stage and sets the Base Image for subsequent instructions. A valid Dockerfile must start with the <code>FROM</code> instruction.</li>
+<li><code>ARG</code> is the only instruction that may precede <code>FROM</code> in the Dockerfile. It’s basically used to specify variables in a Dockerfile. But, if it’s called before <code>FROM</code> it’s declared as being outside the building stage and cannot be used in further steps. If needed, you’ll have to call it again after <code>FROM</code> without a value.</li>
+<li><code>WORKDIR</code> sets the working directory for any <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>COPY</code> and <code>ADD</code> instructions that follow it in the Dockerfile. If the <code>WORKDIR</code> doesn’t exist, it will be created even if it’s not used in any subsequent Dockerfile instruction.</li>
+<li><code>COPY</code> copies new files or directories from the source and adds them to the filesystem of the container at the path destination <code>COPY &lt;src&gt; &lt;dest&gt;</code>.</li>
+<li><code>RUN</code> will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile. <code>RUN</code> can either be used in shell form <code>RUN &lt;command&gt;</code> or exec form <code>RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>. The exec form is parsed as a JSON array, which means that you must use double-quotes (&quot;) around words not single-quotes (’).</li>
+<li><code>CMD</code> can only be called once in a Dockerfile (last <code>CMD</code> will take effect). It’s preferred to be used in the exec form CMD <code>[&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code>. This option will execute whatever is specified. Here python is used to execute my <em>example.py</em> file.</li>
+</ul>
+<pre><code># add arguments for FROM
+ARG VERSION=3.8
+
+# chose your source
+FROM python:${VERSION}
+
+# add working directory if needed
+WORKDIR /usr/src
+
+# copy requirements for installation
+COPY requirements.txt .
+
+# install requirements
+RUN pip install --no-cache-dir -r requirements.txt
+
+# copy everything
+COPY . .
+
+# [optional] command to run on container start (script is executed, container stops after execution)
+CMD [&quot;python&quot;, &quot;./example.py&quot;]</code></pre>
+<p>The above example also requires a <em>requirements.txt</em> file indicating the necessary python libraries you would like to install in your container. For this example I don’t really need one but, I’d like to give an example of how you could make use of it. Especially, as this might be the most interesting aspect when customizing your python development container.</p>
+<p>Within the file <em>example.py</em> I want to check if <em>pandas</em> was installed from my <em>requirements.txt</em> file. If the result is <em>True</em> we should have managed to install <em>pandas</em> in our container.</p>
+<p>Your <em>requirements.txt</em> file could look like this:</p>
+<pre><code>###### Requirements without Version Specifiers ######
+pandas
+
+###### Requirements with Version Specifiers ######
+docopt == 0.6.1             # Version Matching. Must be version 0.6.1
+keyring &gt;= 4.1.1            # Minimum version 4.1.1
+coverage != 3.5             # Version Exclusion. Anything except version 3.5
+Mopidy-Dirble ~= 1.1        # Compatible release. Same as &gt;= 1.1, == 1.*</code></pre>
+<p>As your Docker file is executed sequentially and builds up your image. You need just one line of code in your terminal:</p>
+<pre><code>$ docker build -t examplepy:hello /path/to/docker-file/location/</code></pre>
+<p>You should see the status of every step you specified in your Dockerfile.</p>
+<pre><code>Sending build context to Docker daemon
+Step 1/7 : ARG VERSION=3.8
+Step 2/7 : FROM python:${VERSION}
+3.8: Pulling from library/python
+
+...
+
+Successfully built &lt;some_id&gt;
+Successfully tagged examplepy:hello</code></pre>
+<p>To check if your image was built use the commant <code>$ docker image ls -a</code> which lists your images.</p>
+<pre><code>docker run --rm examplepy:hello</code></pre>
+<p>With the following result (hopefully :)):</p>
+<pre><code>Hello Docker World!
+Pandas found:
+True</code></pre>
+<blockquote>
+<p>Optionally, you could remove the execution line in your Dockerfile [<code>CMD</code>]</p>
+</blockquote>
+<p>Withoud the execution line you can keep your container open and e.g. connect to it with VS Code (use <code>--rm</code> to have your container removed after it’s stopped, <code>-d</code> to run it in the background, <code>-i</code> to keep STDIN open even if not attached so you can access it via VS Code while it’s runnig, for example, and <code>--name</code> to give your container a name tag).</p>
+<pre><code>$ docker run --rm -d -i --name my_custom_container examplepy:hello</code></pre>
+<p>Now you can check if your container is up and running (<code>$ docker container ls -a</code>). If you connect to it with your IDE, you can start using it as an development environment including all files copied into your working directory <code>/usr/src</code>.</p>
+<p>I hope this post was informative. Feel free to contact me for any feedback :)</p>
+</div>
+]]></content>
+        </item>
         
         <item>
             <title>Getting started with Docker</title>
@@ -15,7 +113,7 @@
             
             <guid>/posts/getting-started-with-docker/</guid>
             <description>TL;DR
-This post is ment to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furhtermore, they scale nicely and are therefore rather ressource-efficient.</description>
+This post is meant to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furthermore, they scale nicely and are therefore rather resource-efficient.</description>
             <content type="html"><![CDATA[
 
 
@@ -23,10 +121,10 @@ This post is ment to be a little cheat sheet for Docker setup and usage. Docker 
 <hr />
 <blockquote>
 <p><strong>TL;DR</strong></p>
-<p>This post is ment to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furhtermore, they scale nicely and are therefore rather ressource-efficient. Check out the official <a href="https://www.docker.com/resources/what-container">Docker website</a> for a more detailed overview.</p>
+<p>This post is meant to be a little cheat sheet for Docker setup and usage. Docker is a great tool to containerize your software products, which makes your products portable and usable in several areas (e.g. cloud or on-premises). Additionally, it is a great playground for developers as containers can offer a secure environment to try out something new without risking to break something. Furthermore, they scale nicely and are therefore rather resource-efficient. Check out the official <a href="https://www.docker.com/resources/what-container">Docker website</a> for a more detailed overview.</p>
 </blockquote>
 <hr />
-<p>This post is ment to be a little cheat sheet for Docker setup and usage. For a more general overview about Docker containers see the official <a href="https://www.docker.com/resources/what-container">Docker website</a> or the <a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/container-docker-introduction/">Introduction to Containers and Docker</a> from Microsoft. Just a quick note before going into detail: please, always examine scripts downloaded from the internet before running them locally.</p>
+<p>This post is meant to be a little cheat sheet for Docker setup and usage. For a more general overview about Docker containers see the official <a href="https://www.docker.com/resources/what-container">Docker website</a> or the <a href="https://docs.microsoft.com/en-us/dotnet/architecture/microservices/container-docker-introduction/">Introduction to Containers and Docker</a> from Microsoft. Just a quick note before going into detail: please, always examine scripts downloaded from the internet before running them locally.</p>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
 <p>Before starting the setup, you could check if you Docker is already installed and ready to use:</p>
@@ -35,7 +133,7 @@ $ sudo docker run hello-world</code></pre>
 <p>If that works out fine, you might just want to update docker.</p>
 <div id="the-repository" class="section level3">
 <h3>The Repository</h3>
-<p>If you are on Ubuntu (like me), you need to remove old docker installations first. Therefore, use the folloging command:</p>
+<p>If you are on Ubuntu (like me), you need to remove old docker installations first. Therefore, use the following command:</p>
 <pre><code>$ sudo apt-get remove docker docker-engine docker.io containerd runc</code></pre>
 <p>Before you install Docker Engine for the first time on a new host machine, you need to set up the Docker repository. Afterwards, you can install and update Docker from the repository.</p>
 <p>First, update the <code>apt</code> package index and install packages to allow <code>apt</code> to use a repository over HTTPS:</p>
@@ -69,7 +167,7 @@ sub   rsa4096 2017-02-22 [S]</code></pre>
 <p>You can finish and verify your installation by testing the Docker Engine by running the <code>hello-world</code> image.</p>
 <pre><code>$ sudo docker run hello-world</code></pre>
 <p>This should work out fine. If there any troubles check this <a href="https://docs.docker.com/engine/install/ubuntu/">link</a>.</p>
-<p>I ran in an issue when I tried to start my first container. I received the following error message: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post <a href="http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create" class="uri">http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create</a>: dial unix /var/run/docker.sock: connect: permission denied.</p>
+<p>I ran in an issue when I tried to start my first container. I received the following error message: <em>Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post <a href="http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create" class="uri">http://%2Fvar%2Frun%2Fdocker.sock/v1.40/containers/create</a>: dial unix /var/run/docker.sock: connect: permission denied.</em></p>
 <p>The solution to this problem was to add the user to the Docker user group with <code>$ sudo usermod -aG docker SOMEUSERNAME</code> (then restart your computer).</p>
 </div>
 </div>
@@ -77,28 +175,28 @@ sub   rsa4096 2017-02-22 [S]</code></pre>
 <h2>Useful Docker commands</h2>
 <div id="build-a-container" class="section level3">
 <h3>Build a Container</h3>
-<p>As an example I’m building a container from the <code>rocker/rstudio:3.6.3</code> image. This means, that <a href="https://www.rocker-project.org/">rocker</a> provides us whith an image for RStudio including R version 3.6.3.</p>
+<p>As an example I’m building a container from the <code>rocker/rstudio:3.6.3</code> image. This means, that <a href="https://www.rocker-project.org/">rocker</a> provides us with an image for RStudio including R version 3.6.3.</p>
 <pre><code>$ docker run --rm -d -v /media/path/to/local/file:/home/&lt;your_username&gt;/rstudio -p 8787:8787 -e PASSWORD=&lt;your_pw&gt; -e USER=&lt;your_username&gt; --name &lt;your_container_name&gt; rocker/rstudio:3.6.3</code></pre>
 <p>If you don’t have the rocker/rstudio image yet, it’s automatically pulled from docker hub.
 The arguments run, –rm, -d, -v, -e and -p are used to:</p>
 <ul>
-<li>[run] start a container</li>
-<li>[--rm] remove the container automatically when it is stopped (all changes are lost – great to try some things out as it reduces cleaning steps)</li>
-<li>[-d] detach the container (container runs in background)</li>
-<li>[-v] bind mount a volume (e.g. a folder with data as in this example, see this <a href="https://github.com/rocker-org/rocker/wiki/Sharing-files-with-host-machine">link</a> for details)</li>
-<li>[-e] set the environment variables PASSWORD and USER</li>
-<li>[-p] publish a container’s port(s) to the host (here 8787:8787)</li>
-<li>[--name] give the container a name, so you don’t have to use the container ID (especially useful if you have multiple containers with the same image)</li>
+<li><code>run</code> start a container</li>
+<li><code>--rm</code> remove the container automatically when it is stopped (all changes are lost – great to try some things out as it reduces cleaning steps)</li>
+<li><code>-d</code> detach the container (container runs in background)</li>
+<li><code>-v</code> bind mount a volume (e.g. a folder with data as in this example, see this <a href="https://github.com/rocker-org/rocker/wiki/Sharing-files-with-host-machine">link</a> for details)</li>
+<li><code>-e</code> set the environment variables PASSWORD and USER</li>
+<li><code>-p</code> publish a container’s port(s) to the host (here 8787:8787)</li>
+<li><code>--name</code> give the container a name, so you don’t have to use the container ID (especially useful if you have multiple containers with the same image)</li>
 </ul>
 <p>More Docker run commands can be found on the official <a href="https://docs.docker.com/engine/reference/commandline/run/">Docker website</a>.</p>
 <p>When you run the command with your specifications the container is set up.</p>
-<p>Now, just open your browser and go to <em>localhost:8787</em> if you are on a linux machine, otherwise try <a href="http://192.168.99.100:8787" class="uri">http://192.168.99.100:8787</a> in your browser (or follow the instructions <a href="https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image">here</a>. The following side should appear in your browser window:</p>
+<p>Now, just open your browser and go to <em>localhost:8787</em> if you are on a Linux machine, otherwise try <a href="http://192.168.99.100:8787" class="uri">http://192.168.99.100:8787</a> in your browser (or follow the instructions <a href="https://github.com/rocker-org/rocker/wiki/Using-the-RStudio-image">here</a>. The following side should appear in your browser window:</p>
 <p><img src="/images/rstudio-login.png" /></p>
 <p>To log in use <your_username> and <your_pw> which you entered before.</p>
-<p>After entering your credentials you should be able to see the RStudio ui. If you added a folder to mount as volume, the folder content should be embedded as well.</p>
+<p>After entering your credentials you should be able to see the RStudio GUI. If you added a folder to mount as volume, the folder content should be embedded as well.</p>
 </div>
-<div id="system-maintainance" class="section level3">
-<h3>System Maintainance</h3>
+<div id="system-maintenance" class="section level3">
+<h3>System Maintenance</h3>
 <blockquote>
 <p><code>$ docker system info</code></p>
 </blockquote>
@@ -110,8 +208,8 @@ The arguments run, –rm, -d, -v, -e and -p are used to:</p>
 <p>By default, the command doesn’t remove unused volumes or networks to prevent losing important data. To remove all unused volumes, pass the –volumes option <code>$ docker system prune --volumes</code>. Alternatively use <code>$ docker volume prune</code>.
 To remove all unused networks use <code>$ docker network prune</code>.</p>
 </div>
-<div id="container-maintainance" class="section level3">
-<h3>Container Maintainance</h3>
+<div id="container-maintenance" class="section level3">
+<h3>Container Maintenance</h3>
 <blockquote>
 <p><code>$ docker container ls -a</code></p>
 </blockquote>
@@ -128,8 +226,8 @@ To remove all unused networks use <code>$ docker network prune</code>.</p>
 <p>At the time of the writing of this article, the currently supported filters are until and label. You can specify more than one filter by using multiple –filter options.</p>
 <p>For example, the following command removes containers created more than 5 minutes ago <code>$ docker container prune --filter &quot;until=5m&quot;</code>.</p>
 </div>
-<div id="image-maintainance" class="section level3">
-<h3>Image Maintainance</h3>
+<div id="image-maintenance" class="section level3">
+<h3>Image Maintenance</h3>
 <blockquote>
 <p><code>$ docker image ls -a</code></p>
 </blockquote>

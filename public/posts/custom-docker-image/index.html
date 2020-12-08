@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Michael Bach">
+<meta name="description" content="TL;DR
+Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your Dockerfile.
+ In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground." />
+<meta name="keywords" content="" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="#252627" />
+<link rel="canonical" href="../../posts/custom-docker-image/" />
+
+
+    <title>
+        
+            Customize Docker Container :: Michael Bach 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="../../main.dede02da9537a98158079c023e83573e18127834838ef08172acce888341a797.css">
+
+
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="mask-icon" href="../../safari-pinned-tab.svg" color="#252627">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <meta name="msapplication-TileColor" content="#252627">
+    <meta name="theme-color" content="#252627">
+
+
+
+<meta itemprop="name" content="Customize Docker Container">
+<meta itemprop="description" content="TL;DR
+Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your Dockerfile.
+ In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground.">
+<meta itemprop="datePublished" content="2020-08-08T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-08-08T00:00:00+00:00" />
+<meta itemprop="wordCount" content="963">
+<meta itemprop="image" content="/"/>
+
+
+
+<meta itemprop="keywords" content="" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="/"/>
+
+<meta name="twitter:title" content="Customize Docker Container"/>
+<meta name="twitter:description" content="TL;DR
+Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your Dockerfile.
+ In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground."/>
+
+
+
+    <meta property="og:title" content="Customize Docker Container" />
+<meta property="og:description" content="TL;DR
+Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your Dockerfile.
+ In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/custom-docker-image/" />
+<meta property="og:image" content="/"/>
+<meta property="article:published_time" content="2020-08-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-08-08T00:00:00+00:00" />
+
+
+
+
+    <meta property="article:section" content="development" />
+
+
+
+    <meta property="article:published_time" content="2020-08-08 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="../../" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ cd /home/</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="../../about/">About</a></li><li><a href="../../links/">Links</a></li><li><a href="../../posts/">Posts</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>5 minutes
+
+            
+
+            </p>
+        </div>
+
+        <article>
+            <h1 class="post-title">
+                <a href="../../posts/custom-docker-image/">Customize Docker Container</a>
+            </h1>
+
+            
+
+            <div class="post-content">
+                
+
+
+<p><img src="../../images/Docker_logo.png" /></p>
+<hr />
+<blockquote>
+<p><strong>TL;DR</strong></p>
+<p>Creating your own Docker image is fairly easy, when using a parent image. Basically, you pull the parent image and set up your specifications according to your needs for your custom container. You can specify pretty much everything in your <em>Dockerfile</em>.</p>
+</blockquote>
+<hr />
+<p>In this post I’d like to give a quick overview of how to customize a python container to run your app or to use it as playground. You could either build an image from scratch or use a parent image and customize it to your needs. I’ll focus on customizing a parent image as it suits my needs perfectly. Creating your own image might be necessary for certain usecases. However, most of the time it’s sufficient building on a parent image as many smart people already invested some time in developing it.</p>
+<div id="basic-requirements" class="section level2">
+<h2>Basic Requirements</h2>
+<p>To begin with, you should have Docker installed. If you don’t have Docker installed yet, check out my post on <a href="https://mic-bac.netlify.app/posts/getting-started-with-docker/">Getting started with Docker</a>.</p>
+<p>Create a folder where you would like to save your Dockerfile and any additional files you might need.</p>
+<p>That’s pretty much it! Now you’re good to start customizing your Docker image.</p>
+</div>
+<div id="dockerfile" class="section level2">
+<h2>Dockerfile</h2>
+<p>If you want to run your app in a container, you can use a Dockerfile. In the following, I provided a basic example to give you an idea how it could work, including some extras [optional].</p>
+<p>In your Dockerfile, you’ll need to add some arguments. Some of them are required and some are useful to specifiy your custom image:</p>
+<ul>
+<li><code>FROM</code> initializes a new build stage and sets the Base Image for subsequent instructions. A valid Dockerfile must start with the <code>FROM</code> instruction.</li>
+<li><code>ARG</code> is the only instruction that may precede <code>FROM</code> in the Dockerfile. It’s basically used to specify variables in a Dockerfile. But, if it’s called before <code>FROM</code> it’s declared as being outside the building stage and cannot be used in further steps. If needed, you’ll have to call it again after <code>FROM</code> without a value.</li>
+<li><code>WORKDIR</code> sets the working directory for any <code>RUN</code>, <code>CMD</code>, <code>ENTRYPOINT</code>, <code>COPY</code> and <code>ADD</code> instructions that follow it in the Dockerfile. If the <code>WORKDIR</code> doesn’t exist, it will be created even if it’s not used in any subsequent Dockerfile instruction.</li>
+<li><code>COPY</code> copies new files or directories from the source and adds them to the filesystem of the container at the path destination <code>COPY &lt;src&gt; &lt;dest&gt;</code>.</li>
+<li><code>RUN</code> will execute any commands in a new layer on top of the current image and commit the results. The resulting committed image will be used for the next step in the Dockerfile. <code>RUN</code> can either be used in shell form <code>RUN &lt;command&gt;</code> or exec form <code>RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>. The exec form is parsed as a JSON array, which means that you must use double-quotes (&quot;) around words not single-quotes (’).</li>
+<li><code>CMD</code> can only be called once in a Dockerfile (last <code>CMD</code> will take effect). It’s preferred to be used in the exec form CMD <code>[&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code>. This option will execute whatever is specified. Here python is used to execute my <em>example.py</em> file.</li>
+</ul>
+<pre><code># add arguments for FROM
+ARG VERSION=3.8
+
+# chose your source
+FROM python:${VERSION}
+
+# add working directory if needed
+WORKDIR /usr/src
+
+# copy requirements for installation
+COPY requirements.txt .
+
+# install requirements
+RUN pip install --no-cache-dir -r requirements.txt
+
+# copy everything
+COPY . .
+
+# [optional] command to run on container start (script is executed, container stops after execution)
+CMD [&quot;python&quot;, &quot;./example.py&quot;]</code></pre>
+<p>The above example also requires a <em>requirements.txt</em> file indicating the necessary python libraries you would like to install in your container. For this example I don’t really need one but, I’d like to give an example of how you could make use of it. Especially, as this might be the most interesting aspect when customizing your python development container.</p>
+<p>Within the file <em>example.py</em> I want to check if <em>pandas</em> was installed from my <em>requirements.txt</em> file. If the result is <em>True</em> we should have managed to install <em>pandas</em> in our container.</p>
+<p>Your <em>requirements.txt</em> file could look like this:</p>
+<pre><code>###### Requirements without Version Specifiers ######
+pandas
+
+###### Requirements with Version Specifiers ######
+docopt == 0.6.1             # Version Matching. Must be version 0.6.1
+keyring &gt;= 4.1.1            # Minimum version 4.1.1
+coverage != 3.5             # Version Exclusion. Anything except version 3.5
+Mopidy-Dirble ~= 1.1        # Compatible release. Same as &gt;= 1.1, == 1.*</code></pre>
+<p>As your Docker file is executed sequentially and builds up your image. You need just one line of code in your terminal:</p>
+<pre><code>$ docker build -t examplepy:hello /path/to/docker-file/location/</code></pre>
+<p>You should see the status of every step you specified in your Dockerfile.</p>
+<pre><code>Sending build context to Docker daemon
+Step 1/7 : ARG VERSION=3.8
+Step 2/7 : FROM python:${VERSION}
+3.8: Pulling from library/python
+
+...
+
+Successfully built &lt;some_id&gt;
+Successfully tagged examplepy:hello</code></pre>
+<p>To check if your image was built use the commant <code>$ docker image ls -a</code> which lists your images.</p>
+<pre><code>docker run --rm examplepy:hello</code></pre>
+<p>With the following result (hopefully :)):</p>
+<pre><code>Hello Docker World!
+Pandas found:
+True</code></pre>
+<blockquote>
+<p>Optionally, you could remove the execution line in your Dockerfile [<code>CMD</code>]</p>
+</blockquote>
+<p>Withoud the execution line you can keep your container open and e.g. connect to it with VS Code (use <code>--rm</code> to have your container removed after it’s stopped, <code>-d</code> to run it in the background, <code>-i</code> to keep STDIN open even if not attached so you can access it via VS Code while it’s runnig, for example, and <code>--name</code> to give your container a name tag).</p>
+<pre><code>$ docker run --rm -d -i --name my_custom_container examplepy:hello</code></pre>
+<p>Now you can check if your container is up and running (<code>$ docker container ls -a</code>). If you connect to it with your IDE, you can start using it as an development environment including all files copied into your working directory <code>/usr/src</code>.</p>
+<p>I hope this post was informative. Feel free to contact me for any feedback :)</p>
+</div>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>963 Words</p>
+
+            <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>2020-08-08 00:00 &#43;0000</p>
+        </div>
+
+        
+            <div class="pagination">
+                <div class="pagination__title">
+                    <span class="pagination__title-h"></span>
+                    <hr />
+                </div>
+
+                <div class="pagination__buttons">
+                    
+
+                    
+                        <span class="button next">
+                            <a href="../../posts/getting-started-with-docker/">
+                                <span class="button__text">Getting started with Docker</span>
+                                <span class="button__icon">→</span>
+                            </a>
+                        </span>
+                    
+                </div>
+            </div>
+        
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="../../">mic-bac</a></span>
+            
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="../../bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>
