@@ -27,14 +27,48 @@ In this post I'll cover the ones I've used the most so far. I'll give some examp
 
 ## The data set
 
-```{r, include=FALSE}
-#library(data.table)
+```{r setup, include=FALSE}
+options(scipen = 10)
+library(data.table)
+library(plotly)
 dt <- iris
-
+setDT(dt)
+colnames(dt) <- tolower(colnames(dt))
+colnames(dt) <- gsub("\\.", "_", colnames(dt)) # I prefer snake_case, but just a matter of taste
 ```
 
+The data set consists of 3 species, encoded as factors (*setosa*, *versicolor*, *virginica*). These species are all flowers and have different sepal and petal length and width, which are reported.
+
+If we want to simply plot the data by group, we'll see that the groups differ nicely from each other.
+
+```{r plot_species}
+a <- list(text = "Sepal Width", x = 1, y = 8.5, allign = "center", showarrow = FALSE)
+fig_sepal_w <- plot_ly(data = dt, y = ~sepal_width, color = ~species, type = "box") %>%
+  layout(annotations = a)
+
+a$text <- "Sepal Length"
+fig_sepal_l <- plot_ly(data = dt, y = ~sepal_length, color = ~species, type = "box") %>% 
+  layout(annotations = a)
+
+a$text <- "Petal Width"
+fig_petal_w <- plot_ly(data = dt, y = ~petal_width, color = ~species, type = "box") %>% 
+  layout(annotations = a)
+
+a$text <- "Petal Length"
+fig_petal_l <- plot_ly(data = dt, y = ~petal_length, color = ~species, type = "box") %>% 
+  layout(annotations = a)
+
+fig <- subplot(fig_sepal_w, fig_sepal_l, fig_petal_w, fig_petal_l, shareY = TRUE) %>% 
+  layout(showlegend = FALSE)
+
+fig
+```
+
+Based on this first intuition, we should get some nice clustering results on the data set.
 
 ## K-Means Clustering
+
+To begin with, there is the all time favorite when it comes to clustering - the *k-means* algorithm. This algorithm basically tries to partition the observations in *k* clusters.
 
 
 ## Hierarchical Clustering

@@ -1,0 +1,72 @@
+---
+title: Clustering with R
+author: Michael Bach
+date: '2020-10-25'
+slug: clustering-with-r
+categories: ["data-science"]
+images: ~
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+
+<hr />
+<blockquote>
+<p><strong>TL;DR</strong></p>
+<p>Some summary.</p>
+</blockquote>
+<hr />
+<p>Clustering is an unsupervised learning method and helps grouping data points into clusters based on some similarity measures. As there are many clustering techniques out there, it’s vital to make sure to understand the underlying task and variables to choose the appropriate technique. Some common methods are:</p>
+<ul>
+<li>Partitional Clustering</li>
+<li>Hierarchical Clustring</li>
+<li>Fuzzy Clustering</li>
+<li>Density-Based Clustering</li>
+<li>Model-Based Clustering</li>
+</ul>
+<p>In this post I’ll cover the ones I’ve used the most so far. I’ll give some examples using the popular <em>iris</em> data set.</p>
+<div id="the-data-set" class="section level2">
+<h2>The data set</h2>
+<p>The data set consists of 3 species, encoded as factors (<em>setosa</em>, <em>versicolor</em>, <em>virginica</em>). These species are all flowers and have different sepal and petal length and width, which are reported.</p>
+<p>If we want to simply plot the data by group, we’ll see that the groups differ nicely from each other.</p>
+<pre class="r"><code>a &lt;- list(text = &quot;Sepal Width&quot;, x = 1, y = 8.5, allign = &quot;center&quot;, showarrow = FALSE)
+fig_sepal_w &lt;- plot_ly(data = dt, y = ~sepal_width, color = ~species, type = &quot;box&quot;) %&gt;%
+  layout(annotations = a)
+
+a$text &lt;- &quot;Sepal Length&quot;
+fig_sepal_l &lt;- plot_ly(data = dt, y = ~sepal_length, color = ~species, type = &quot;box&quot;) %&gt;% 
+  layout(annotations = a)
+
+a$text &lt;- &quot;Petal Width&quot;
+fig_petal_w &lt;- plot_ly(data = dt, y = ~petal_width, color = ~species, type = &quot;box&quot;) %&gt;% 
+  layout(annotations = a)
+
+a$text &lt;- &quot;Petal Length&quot;
+fig_petal_l &lt;- plot_ly(data = dt, y = ~petal_length, color = ~species, type = &quot;box&quot;) %&gt;% 
+  layout(annotations = a)
+
+fig &lt;- subplot(fig_sepal_w, fig_sepal_l, fig_petal_w, fig_petal_l, shareY = TRUE) %&gt;% 
+  layout(showlegend = FALSE)
+
+fig</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"data":[{"fillcolor":"rgba(102,194,165,0.5)","y":[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3],"type":"box","name":"setosa","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","y":[3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6,2.4,2.4,2.7,2.7,3,3.4,3.1,2.3,3,2.5,2.6,3,2.6,2.3,2.7,3,2.9,2.9,2.5,2.8],"type":"box","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","y":[3.3,2.7,3,2.9,3,3,2.5,2.9,2.5,3.6,3.2,2.7,3,2.5,2.8,3.2,3,3.8,2.6,2.2,3.2,2.8,2.8,2.7,3.3,3.2,2.8,3,2.8,3,2.8,3.8,2.8,2.8,2.6,3,3.4,3.1,3,3.1,3.1,3.1,2.7,3.2,3.3,3,2.5,3,3.4,3],"type":"box","name":"virginica","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(102,194,165,0.5)","y":[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5],"type":"box","name":"setosa","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","y":[7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7,5.5,5.5,5.8,6,5.4,6,6.7,6.3,5.6,5.5,5.5,6.1,5.8,5,5.6,5.7,5.7,6.2,5.1,5.7],"type":"box","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","y":[6.3,5.8,7.1,6.3,6.5,7.6,4.9,7.3,6.7,7.2,6.5,6.4,6.8,5.7,5.8,6.4,6.5,7.7,7.7,6,6.9,5.6,7.7,6.3,6.7,7.2,6.2,6.1,6.4,7.2,7.4,7.9,6.4,6.3,6.1,7.7,6.3,6.4,6,6.9,6.7,6.9,5.8,6.8,6.7,6.7,6.3,6.5,6.2,5.9],"type":"box","name":"virginica","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x2","yaxis":"y","frame":null},{"fillcolor":"rgba(102,194,165,0.5)","y":[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2],"type":"box","name":"setosa","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x3","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","y":[1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1,1.1,1,1.2,1.6,1.5,1.6,1.5,1.3,1.3,1.3,1.2,1.4,1.2,1,1.3,1.2,1.3,1.3,1.1,1.3],"type":"box","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x3","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","y":[2.5,1.9,2.1,1.8,2.2,2.1,1.7,1.8,1.8,2.5,2,1.9,2.1,2,2.4,2.3,1.8,2.2,2.3,1.5,2.3,2,2,1.8,2.1,1.8,1.8,1.8,2.1,1.6,1.9,2,2.2,1.5,1.4,2.3,2.4,1.8,1.8,2.1,2.4,2.3,1.9,2.3,2.5,2.3,1.9,2,2.3,1.8],"type":"box","name":"virginica","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x3","yaxis":"y","frame":null},{"fillcolor":"rgba(102,194,165,0.5)","y":[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4],"type":"box","name":"setosa","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x4","yaxis":"y","frame":null},{"fillcolor":"rgba(252,141,98,0.5)","y":[4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5,3.8,3.7,3.9,5.1,4.5,4.5,4.7,4.4,4.1,4,4.4,4.6,4,3.3,4.2,4.2,4.2,4.3,3,4.1],"type":"box","name":"versicolor","marker":{"color":"rgba(252,141,98,1)","line":{"color":"rgba(252,141,98,1)"}},"line":{"color":"rgba(252,141,98,1)"},"xaxis":"x4","yaxis":"y","frame":null},{"fillcolor":"rgba(141,160,203,0.5)","y":[6,5.1,5.9,5.6,5.8,6.6,4.5,6.3,5.8,6.1,5.1,5.3,5.5,5,5.1,5.3,5.5,6.7,6.9,5,5.7,4.9,6.7,4.9,5.7,6,4.8,4.9,5.6,5.8,6.1,6.4,5.6,5.1,5.6,6.1,5.6,5.5,4.8,5.4,5.6,5.1,5.1,5.9,5.7,5.2,5,5.2,5.4,5.1],"type":"box","name":"virginica","marker":{"color":"rgba(141,160,203,1)","line":{"color":"rgba(141,160,203,1)"}},"line":{"color":"rgba(141,160,203,1)"},"xaxis":"x4","yaxis":"y","frame":null}],"layout":{"xaxis":{"domain":[0,0.23],"automargin":true,"anchor":"y"},"xaxis2":{"domain":[0.27,0.48],"automargin":true,"anchor":"y"},"xaxis3":{"domain":[0.52,0.73],"automargin":true,"anchor":"y"},"xaxis4":{"domain":[0.77,1],"automargin":true,"anchor":"y"},"yaxis":{"domain":[0,1],"automargin":true,"title":"sepal_width","anchor":"x"},"annotations":[{"text":"Sepal Width","x":1,"y":8.5,"allign":"center","showarrow":false,"xref":"x","yref":"y"},{"text":"Sepal Length","x":1,"y":8.5,"allign":"center","showarrow":false,"xref":"x2","yref":"y"},{"text":"Petal Width","x":1,"y":8.5,"allign":"center","showarrow":false,"xref":"x3","yref":"y"},{"text":"Petal Length","x":1,"y":8.5,"allign":"center","showarrow":false,"xref":"x4","yref":"y"}],"shapes":[],"images":[],"margin":{"b":40,"l":60,"t":25,"r":10},"hovermode":"closest","showlegend":false},"attrs":{"7b48594af816":{"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"},"7b4831df0d8e":{"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"},"7b484baa4fa6":{"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"},"7b4827b0d38b":{"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"source":"A","config":{"showSendToCloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"subplot":true,"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Based on this first intuition, we should get some nice clustering results on the data set.</p>
+</div>
+<div id="k-means-clustering" class="section level2">
+<h2>K-Means Clustering</h2>
+<p>To begin with, there is the all time favorite when it comes to clustering - the <em>k-means</em> algorithm. This algorithm basically tries to partition the observations in <em>k</em> clusters.</p>
+</div>
+<div id="hierarchical-clustering" class="section level2">
+<h2>Hierarchical Clustering</h2>
+<p><a href="https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68" class="uri">https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68</a>
+<a href="https://www.datanovia.com/en/blog/types-of-clustering-methods-overview-and-quick-start-r-code/" class="uri">https://www.datanovia.com/en/blog/types-of-clustering-methods-overview-and-quick-start-r-code/</a>
+<a href="https://www.researchgate.net/publication/220571682_An_overview_of_clustering_methods" class="uri">https://www.researchgate.net/publication/220571682_An_overview_of_clustering_methods</a></p>
+</div>
