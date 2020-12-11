@@ -1,0 +1,46 @@
+---
+title: Clustering with R
+author: Michael Bach
+date: '2020-10-25'
+slug: clustering-with-r
+categories: ["data-science"]
+images: ~
+---
+
+---------------------------------------
+
+> **TL;DR**
+>
+> Some summary.
+
+---------------------------------------
+
+Clustering is an unsupervised learning method and helps grouping data points into clusters based on some similarity measures. As there are many clustering techniques out there, it's vital to make sure to understand the underlying task and variables to choose the appropriate technique. Some common methods are:
+
+- Partitional Clustering
+- Hierarchical Clustring
+- Fuzzy Clustering
+- Density-Based Clustering
+- Model-Based Clustering
+
+In this post I'll cover the ones I've used the most so far. I'll give some examples using the popular *iris* data set.
+
+## The data set
+
+```{r, include=FALSE}
+#library(data.table)
+dt <- iris
+
+```
+
+
+## K-Means Clustering
+
+
+## Hierarchical Clustering
+
+https://towardsdatascience.com/the-5-clustering-algorithms-data-scientists-need-to-know-a36d136ef68
+https://www.datanovia.com/en/blog/types-of-clustering-methods-overview-and-quick-start-r-code/
+https://www.researchgate.net/publication/220571682_An_overview_of_clustering_methods
+
+
